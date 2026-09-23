@@ -3,7 +3,7 @@ spring:
 
   cassandra:
     port: ${CASSANDRA_PORT:9042}
-    keyspace-name: ${CASSANDRA_KEY_SPACE:user_activity}
+    keyspace-name: ${CASSANDRA_KEY_SPACE:log_system}
     local-datacenter: ${CASSANDRA_LOCAL_DC:dc1}
     contact-points: ${CASSANDRA_CONTACT_POINTS:127.0.0.1:9042}
     request:
