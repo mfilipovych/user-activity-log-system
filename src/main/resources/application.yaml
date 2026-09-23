@@ -1,0 +1,16 @@
+spring:
+  application.name: ${APP_NAME:useractivitylogsystem}
+
+  cassandra:
+    port: ${CASSANDRA_PORT:9042}
+    keyspace-name: ${CASSANDRA_KEY_SPACE:user_activity}
+    local-datacenter: ${CASSANDRA_LOCAL_DC:dc1}
+    contact-points: ${CASSANDRA_CONTACT_POINTS:127.0.0.1:9042}
+    request:
+      consistency: ${CASSANDRA_CONSISTENCY:local_quorum}
+      timeout: ${CASSANDRA_REQUEST_TIMEOUT:2s}
+    connection:
+      connect-timeout: ${CASSANDRA_CONNECTION_TIMEOUT:5s}
+      init-query-timeout: ${CASSANDRA_INIT_QUERY_TIMEOUT:5s}
+
+
