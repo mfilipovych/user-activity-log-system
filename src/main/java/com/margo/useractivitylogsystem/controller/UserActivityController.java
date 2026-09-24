@@ -6,11 +6,8 @@ import com.margo.useractivitylogsystem.service.UserActivityService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +35,7 @@ public class UserActivityController {
     @PostMapping("/{userId}")
     public ResponseEntity<ActivityResponse> saveActivity(
             @PathVariable UUID userId,
-            @Valid @NonNull @RequestBody ActivityRequest request) {
+            @Valid @RequestBody ActivityRequest request) {
         log.debug("Request to send the activity {} for user {}", request, userId);
         ActivityResponse response = userActivityService.saveActivity(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

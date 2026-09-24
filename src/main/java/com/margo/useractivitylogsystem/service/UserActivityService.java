@@ -68,7 +68,7 @@ public class UserActivityService {
 
     private List<ActivityResponse> getActivitiesInTimeRange(UUID userId, Instant from, Instant to) {
         return userActivityMapper.toResponse(
-                repository.findByUserIdAndTimeRange(userId, from, to));
+                repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan(userId, from, to));
     }
 
     private List<ActivityResponse> getRecentActivities(UUID userId, int limit) {
