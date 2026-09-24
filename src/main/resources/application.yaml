@@ -14,3 +14,5 @@ spring:
       init-query-timeout: ${CASSANDRA_INIT_QUERY_TIMEOUT:5s}
 
 
+activity:
+  default-ttl: ${DEFAULT_ACTIVITY_TTL:30d}
