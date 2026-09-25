@@ -160,6 +160,24 @@ class UserActivityServiceTest {
     }
 
     @ParameterizedTest
+    @CsvSource({
+            "2026-09-01T00:00:00Z, 2026-09-24T00:00:00Z, 70",
+            "2026-09-24T00:00:00Z, 2026-09-24T00:00:00Z, 1"
+    })
+    void getUserActivities_withValidRangeAndLimit_queriesByTimeRange(Instant from, Instant to, Integer limit) {
+        // given
+        when(repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan
+                (USER_ID, from, to, Limit.of(limit))).thenReturn(entities);
+        when(userActivityMapper.toResponse(entities)).thenReturn(responses);
+
+        // when
+        List<ActivityResponse> result = service.getUserActivities(USER_ID, limit, from, to);
+
+        // then
+        assertThat(result).isSameAs(responses);
+    }
+
+    @ParameterizedTest
     @MethodSource("invalidRanges")
     void getUserActivities_withInvalidRange_throwsAndSkipsFetchingRecords(Instant from, Instant to, String message) {
         // when & then

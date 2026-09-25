@@ -91,25 +91,6 @@ class UserActivityIntegrationTest {
         assertThat(service.getUserActivities(userId, null, null, null)).containsExactly(response);
     }
 
-    @ParameterizedTest
-    @MethodSource("readCases")
-    void getUserActivities_returnsExpectedActivitiesNewestFirst(
-            Integer limit, Instant from, Instant to, List<Integer> expectedHours) {
-        // given:
-        repository.saveAll(IntStream.range(0, 5)
-                .mapToObj(hour -> activityAt(userId, at(hour), "TYPE_" + hour))
-                .toList());
-        repository.save(activityAt(UUID.randomUUID(), at(0), "OTHER_USER"));
-
-        // when
-        List<ActivityResponse> result = service.getUserActivities(userId, limit, from, to);
-
-        // then
-        assertThat(result)
-                .extracting(ActivityResponse::activityType)
-                .containsExactlyElementsOf(expectedHours.stream().map(hour -> "TYPE_" + hour).toList());
-    }
-
     @Test
     void findByTimestampRange_returnsRecordsInCorrectRange() {
         // given
@@ -134,6 +115,25 @@ class UserActivityIntegrationTest {
                 .isEqualTo("INSIDE");
     }
 
+    @ParameterizedTest
+    @MethodSource("readCases")
+    void getUserActivities_returnsExpectedActivitiesNewestFirst(
+            Integer limit, Instant from, Instant to, List<Integer> expectedHours) {
+        // given:
+        repository.saveAll(IntStream.range(0, 5)
+                .mapToObj(hour -> activityAt(userId, at(hour), "TYPE_" + hour))
+                .toList());
+        repository.save(activityAt(UUID.randomUUID(), at(0), "OTHER_USER"));
+
+        // when
+        List<ActivityResponse> result = service.getUserActivities(userId, limit, from, to);
+
+        // then
+        assertThat(result)
+                .extracting(ActivityResponse::activityType)
+                .containsExactlyElementsOf(expectedHours.stream().map(hour -> "TYPE_" + hour).toList());
+    }
+
     private static Stream<Arguments> readCases() {
         return Stream.of(
                 // limit, from, to, expected hours (newest first)
@@ -141,6 +141,7 @@ class UserActivityIntegrationTest {
                 Arguments.of(2, null, null, List.of(4, 3)),              // recent, limit 2
                 Arguments.of(null, at(1), at(3), List.of(2, 1)),         // from inclusive, to exclusive
                 Arguments.of(null, at(0), at(5), List.of(4, 3, 2, 1, 0)),// range covering everything
+                Arguments.of(1, at(0), at(5), List.of(4)),// range with limit
                 Arguments.of(null, at(10), at(11), List.of()));          // range with no data
     }
 

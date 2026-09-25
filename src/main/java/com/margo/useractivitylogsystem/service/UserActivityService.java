@@ -58,7 +58,9 @@ public class UserActivityService {
             throw new IllegalArgumentException("Parameter 'from' cannot be after 'to'.");
         }
 
-        return getActivitiesInTimeRange(userId, from, to);
+        return limit == null
+                ? getActivitiesInTimeRange(userId, from, to)
+                : getActivitiesInTimeRangeWithLimit(userId, from, to, limit);
     }
 
     private List<ActivityResponse> getAllActivities(UUID userId) {
@@ -68,10 +70,17 @@ public class UserActivityService {
 
     private List<ActivityResponse> getActivitiesInTimeRange(UUID userId, Instant from, Instant to) {
         return userActivityMapper.toResponse(
-                repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan(userId, from, to));
+                repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan
+                        (userId, from, to));
     }
 
-    private List<ActivityResponse> getRecentActivities(UUID userId, int limit) {
+    private List<ActivityResponse> getActivitiesInTimeRangeWithLimit(UUID userId, Instant from, Instant to, Integer limit) {
+        return userActivityMapper.toResponse(
+                repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan
+                        (userId, from, to, Limit.of(limit)));
+    }
+
+    private List<ActivityResponse> getRecentActivities(UUID userId, Integer limit) {
         return userActivityMapper.toResponse(
                 repository.findByKey_UserId(userId, Limit.of(limit)));
     }

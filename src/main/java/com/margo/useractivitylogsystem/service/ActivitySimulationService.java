@@ -54,7 +54,7 @@ public class ActivitySimulationService {
 
         try {
             userActivityService.saveActivity(userId, request);
-            log.info("Simulated activity logged successfully for user with id: {}. Type: {}", userId, activityType);
+            log.debug("Simulated activity logged successfully for user with id: {}. Type: {}", userId, activityType);
         } catch (Exception ex) {
             log.error("Simulation failed to persist activity for user with id:{}. Error: {}", userId, ex.getMessage());
         }

@@ -23,4 +23,8 @@ public interface UserActivityRepository extends CassandraRepository<UserActivity
     @Consistency(value = DefaultConsistencyLevel.LOCAL_ONE)
     List<UserActivity> findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan(
             UUID userId, Instant start, Instant end);
+
+    @Consistency(value = DefaultConsistencyLevel.LOCAL_ONE)
+    List<UserActivity> findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan(
+            UUID userId, Instant start, Instant end, Limit limit);
 }
