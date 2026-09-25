@@ -1,0 +1,90 @@
+x-cassandra-env: &cass-env
+  CASSANDRA_CLUSTER_NAME: log-activity-cluster
+  CASSANDRA_DC: dc1
+  CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+  CASSANDRA_SEEDS: cassandra-1
+  MAX_HEAP_SIZE: 512M
+  HEAP_NEWSIZE: 128M
+
+x-cassandra-healthcheck: &cass-health
+  test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces' || exit 1"]
+  interval: 15s
+  timeout: 10s
+  retries: 20
+  start_period: 60s
+
+services:
+  cassandra-1:
+    image: cassandra:4.1
+    environment:
+      <<: *cass-env
+      CASSANDRA_RACK: rack1
+    volumes:
+      - cass1-data:/var/lib/cassandra
+    healthcheck: *cass-health
+    networks: [activity-net]
+
+  cassandra-2:
+    image: cassandra:4.1
+    environment:
+      <<: *cass-env
+      CASSANDRA_RACK: rack2
+    volumes:
+      - cass2-data:/var/lib/cassandra
+    depends_on:
+      cassandra-1:
+        condition: service_healthy
+    healthcheck: *cass-health
+    networks: [activity-net]
+
+  cassandra-3:
+    image: cassandra:4.1
+    environment:
+      <<: *cass-env
+      CASSANDRA_RACK: rack3
+    volumes:
+      - cass3-data:/var/lib/cassandra
+    depends_on:
+      cassandra-2:
+        condition: service_healthy
+    healthcheck: *cass-health
+    networks: [activity-net]
+
+  cassandra-init:
+    image: cassandra:4.1
+    depends_on:
+      cassandra-3:
+        condition: service_healthy
+    volumes:
+      - ./src/main/resources/scripts/schema.cql:/init.cql:ro
+    command: ["cqlsh", "cassandra-1", "9042", "-f", "/init.cql"]
+    restart: "no"
+    networks: [activity-net]
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      cassandra-init:
+        condition: service_completed_successfully
+    environment:
+      APP_NAME: useractivitylogsystem
+      CASSANDRA_PORT: 9042
+      CASSANDRA_KEY_SPACE: log_system
+      CASSANDRA_LOCAL_DC: dc1
+      CASSANDRA_CONTACT_POINTS: cassandra-1:9042,cassandra-2:9042,cassandra-3:9042
+      CASSANDRA_CONSISTENCY: local_quorum
+      CASSANDRA_REQUEST_TIMEOUT: 2s
+      CASSANDRA_CONNECTION_TIMEOUT: 5s
+      CASSANDRA_INIT_QUERY_TIMEOUT: 5s
+    restart: on-failure
+    networks: [activity-net]
+
+networks:
+  activity-net:
+
+volumes:
+  cass1-data:
+  cass2-data:
+  cass3-data:
