@@ -31,8 +31,31 @@ The system creates a keyspace named `log_system` configured with `NetworkTopolog
 * **Keyspace**: `log_system` (Replication Factor: 3)
 * **Table**: `user_activities`
 * **Partition Key**: `user_id` (UUID) – balances logs across cluster nodes.
-* **Clustering Keys**: `activity_timestamp` (DESC), `activity_id` (TimeUUID, DESC) – ensures fast retrieval of the most recent user logs and their uniqueness.
-* **Default TTL**: 30 days (2,592,000 seconds).
+* **Clustering Keys**: `activity_timestamp` (DESC), `activity_id` (TimeUUID, DESC) – ensures fast retrieval of the most recent user logs and guarantees record uniqueness.
+* **Default TTL**: 30 days (`2,592,000` seconds). Defined as a table property in schema DDL (`default_time_to_live`) and mirrored in `application.yaml` for application-side reference.
+* **Compaction Strategy**: `TimeWindowCompactionStrategy` that groups SSTables by write timestamp into daily windows, allowing fully-expired windows to be dropped cleanly as a single file deletion. This is the recommended strategy for immutable, TTL-based time-series data.
+* **Compaction Window**: 1 day, aligned to maintain between 20 and 30 active compaction windows for the default 30-day retention period (30 days ÷ 1-day window = 30 active windows).
+ 
+**Important Operational Note on Changing TTL**:
+The TTL is defined at the schema level and configured via `application.yaml`.
+If the TTL in `application.yaml` and the table schema is significantly adjusted, the compaction window size must be re-tuned in Cassandra to match.
+
+Leaving a 1-day window unchanged after a significant increase in default retention (e.g., to 1 year) results in hundreds of active SSTable windows,
+leading to read performance degradation and high open file handle counts.
+
+To alter the compaction window size on your existing `user_activities` table in Cassandra, run an `ALTER TABLE` query.
+1. Execute via cqlsh in Docker:
+```bash
+docker compose exec cassandra-1 cqlsh -e "
+  ALTER TABLE log_system.user_activities 
+  WITH compaction = {
+    'class': 'TimeWindowCompactionStrategy',
+    'compaction_window_unit': 'DAYS',
+    'compaction_window_size': '2'
+  };
+"
+```
+2. Update `schema.cql`.
 
 ```cassandraql
 CREATE KEYSPACE IF NOT EXISTS log_system
@@ -44,14 +67,19 @@ WITH REPLICATION = {
 USE log_system;
 
 CREATE TABLE IF NOT EXISTS user_activities (
-    user_id uuid,
-    activity_id timeuuid,
-    activity_type text,
-    activity_timestamp timestamp,
-    details text,
-    PRIMARY KEY ( (user_id), activity_timestamp, activity_id )
+   user_id uuid,
+   activity_id timeuuid,
+   activity_type text,
+   activity_timestamp timestamp,
+   details text,
+   PRIMARY KEY ( (user_id), activity_timestamp, activity_id )
 ) WITH CLUSTERING ORDER BY (activity_timestamp DESC, activity_id DESC )
-    AND DEFAULT_TIME_TO_LIVE = 2592000;
+   AND DEFAULT_TIME_TO_LIVE = 2592000
+   AND COMPACTION = {
+            'class': 'TimeWindowCompactionStrategy',
+            'compaction_window_unit': 'DAYS',
+            'compaction_window_size': 1
+            };
 ```
 
 ---
@@ -277,14 +305,19 @@ WITH REPLICATION = {
 USE log_system;
 
 CREATE TABLE IF NOT EXISTS user_activities (
-    user_id uuid,
-    activity_id timeuuid,
-    activity_type text,
-    activity_timestamp timestamp,
-    details text,
-    PRIMARY KEY ( (user_id), activity_timestamp, activity_id )
+   user_id uuid,
+   activity_id timeuuid,
+   activity_type text,
+   activity_timestamp timestamp,
+   details text,
+   PRIMARY KEY ( (user_id), activity_timestamp, activity_id )
 ) WITH CLUSTERING ORDER BY (activity_timestamp DESC, activity_id DESC )
-    AND DEFAULT_TIME_TO_LIVE = 2592000;
+   AND DEFAULT_TIME_TO_LIVE = 2592000
+   AND COMPACTION = {
+            'class': 'TimeWindowCompactionStrategy',
+            'compaction_window_unit': 'DAYS',
+            'compaction_window_size': 1
+            };
 
 ```
 
@@ -436,8 +469,7 @@ curl -X POST "http://localhost:8080/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a
      -H "Content-Type: application/json" \
      -d '{
            "activityType": "PURCHASE_COMPLETE",
-           "details": "User completed order #98213",
-           "ttlInSeconds": 86400
+           "details": "User completed order #98213"
          }'
 ```
 
@@ -592,14 +624,14 @@ full end-to-end integration testing with a real Cassandra container.
 ---
 
 ### 1. Test Suite Overview
-| Test Class | Category / Scope | Key Responsibilities & Tools |
-| :--- | :--- | :--- |
+| Test Class | Category / Scope | Key Responsibilities & Tools                                                                                                                                                                                               |
+| :--- | :--- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **`UserActivityIntegrationTest`** | **Integration Tests** | Spawns a real **Apache Cassandra container** via **Testcontainers** (`CassandraContainer`) and `@ServiceConnection`. Verifies database persistence, TimeUUID key generation, TTL enforcement, and range query correctness. |
-| **`UserActivityControllerTest`** | **REST API / Web Slice** | Uses `@WebMvcTest` and `MockMvc` to test HTTP endpoints. Verifies request parameter parsing, payload validation rules (`@Valid`), path variable conversion, HTTP status codes, and JSON response structures. |
-| **`UserActivityServiceTest`** | **Business Logic** | Pure unit tests with **Mockito**. Verifies TTL fallback calculations, time range validation logic, repository routing, and TimeUUID key construction. |
-| **`GlobalExceptionHandlerTest`** | **Error Handling** | Tests translation of application and Cassandra driver exceptions (`UnavailableException`, `DriverTimeoutException`, `ConstraintViolationException`) into RFC-7807 `ProblemDetail` responses. |
-| **`ActivitySimulationServiceTest`** | **Scheduled Tasks** | Verifies random selection of mock users/activities and confirms that background simulation failures are gracefully caught without taking down the application. |
-| **`UserActivityMapperTest`** | **Object Mapping** | Tests MapStruct entity-to-DTO mappings, including single entities, null checking, and collection mappings. |
+| **`UserActivityControllerTest`** | **REST API / Web Slice** | Uses `@WebMvcTest` and `MockMvc` to test HTTP endpoints. Verifies request parameter parsing, payload validation rules (`@Valid`), path variable conversion, HTTP status codes, and JSON response structures.               |
+| **`UserActivityServiceTest`** | **Business Logic** | Pure unit tests with **Mockito**. Verifies TTL, time range validation logic, repository routing, and TimeUUID key construction.                                                                                            |
+| **`GlobalExceptionHandlerTest`** | **Error Handling** | Tests translation of application and Cassandra driver exceptions (`UnavailableException`, `DriverTimeoutException`, `ConstraintViolationException`) into RFC-7807 `ProblemDetail` responses.                               |
+| **`ActivitySimulationServiceTest`** | **Scheduled Tasks** | Verifies random selection of mock users/activities and confirms that background simulation failures are gracefully caught without taking down the application.                                                             |
+| **`UserActivityMapperTest`** | **Object Mapping** | Tests MapStruct entity-to-DTO mappings, including single entities, null checking, and collection mappings.                                                                                                                 |
 ---
 
 ### 2. Integration Testing with Testcontainers

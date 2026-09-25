@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -68,13 +67,10 @@ class UserActivityIntegrationTest {
         userId = UUID.randomUUID();
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {-1, 60, 3600})
-    void saveActivity_persistsRowWithTimeUuidKeyAndExpectedTtl(int requestedTtl) {
+    @Test
+    void saveActivity_persistsRowWithTimeUuidKeyAndTtl() {
         // given
-        Integer ttl = requestedTtl == -1 ? null : requestedTtl;
-        long expectedTtl = ttl == null ? defaultTtl.toSeconds() : ttl;
-        ActivityRequest request = new ActivityRequest(ACTIVITY_TYPE, DETAILS, ttl);
+        ActivityRequest request = new ActivityRequest(ACTIVITY_TYPE, DETAILS);
 
         // when
         ActivityResponse response = service.saveActivity(userId, request);
@@ -88,7 +84,7 @@ class UserActivityIntegrationTest {
             assertThat(stored.getActivityType()).isEqualTo(request.activityType());
             assertThat(stored.getDetails()).isEqualTo(request.details());
         });
-        assertThat(remainingTtlSeconds()).isBetween((int) expectedTtl - 60, (int) expectedTtl);
+        assertThat(remainingTtlSeconds()).isBetween((int) defaultTtl.toSeconds() - 60, (int) defaultTtl.toSeconds());
         assertThat(service.getUserActivities(userId, null, null, null)).containsExactly(response);
     }
 

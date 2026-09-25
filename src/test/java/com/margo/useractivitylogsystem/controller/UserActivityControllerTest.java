@@ -88,10 +88,9 @@ class UserActivityControllerTest {
 
     private static Stream<ActivityRequest> validRequests() {
         return Stream.of(
-                new ActivityRequest(ACTIVITY_TYPE, DETAILS, 3600),
-                new ActivityRequest(ACTIVITY_TYPE, null, null),
-                new ActivityRequest("a".repeat(50), null, 60),
-                new ActivityRequest(ACTIVITY_TYPE, null, 31_536_000));
+                new ActivityRequest(ACTIVITY_TYPE, DETAILS),
+                new ActivityRequest(ACTIVITY_TYPE, null),
+                new ActivityRequest("a".repeat(50), null));
     }
 
     @ParameterizedTest
@@ -105,12 +104,10 @@ class UserActivityControllerTest {
 
     private static Stream<ActivityRequest> invalidRequests() {
         return Stream.of(
-                new ActivityRequest(null, "x", null),
-                new ActivityRequest("   ", null, null),
-                new ActivityRequest("a".repeat(51), null, null),
-                new ActivityRequest(ACTIVITY_TYPE, "d".repeat(2001), null),
-                new ActivityRequest(ACTIVITY_TYPE, null, 59),
-                new ActivityRequest(ACTIVITY_TYPE, null, 31_536_001));
+                new ActivityRequest(null, "x"),
+                new ActivityRequest("   ", null),
+                new ActivityRequest("a".repeat(51), null),
+                new ActivityRequest(ACTIVITY_TYPE, "d".repeat(2001)));
     }
 
     @ParameterizedTest

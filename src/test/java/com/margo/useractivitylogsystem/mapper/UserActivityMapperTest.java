@@ -7,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-import static com.margo.useractivitylogsystem.data.TestData.ACTIVITY_TYPE;
 import static com.margo.useractivitylogsystem.data.TestData.activityResponse;
 import static com.margo.useractivitylogsystem.data.TestData.userActivity;
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +24,7 @@ class UserActivityMapperTest {
 
         // then
         assertNotNull(activityResponse);
-        assertEquals(activityResponse, RESPONSE);
+        assertEquals(RESPONSE, activityResponse);
     }
 
     @Test
@@ -63,8 +62,8 @@ class UserActivityMapperTest {
 
         // then
         assertNotNull(activityResponse);
-        assertEquals(activityResponse.size(), entities.size());
-        assertEquals(activityResponse.getFirst(), RESPONSE);
+        assertEquals(entities.size(), activityResponse.size());
+        assertEquals(RESPONSE, activityResponse.getFirst());
     }
 
     @Test

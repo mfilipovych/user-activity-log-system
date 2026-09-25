@@ -35,12 +35,8 @@ public class UserActivityService {
     public ActivityResponse saveActivity(UUID userId, ActivityRequest request) {
         UserActivity activity = formUserActivity(userId, request);
 
-        Duration effectiveTtl = request.ttlInSeconds() == null
-                ? defaultActivityTtl
-                : Duration.ofSeconds(request.ttlInSeconds());
-
-        cassandraTemplate.insert(activity, InsertOptions.builder().ttl(effectiveTtl).build());
-        log.debug("Saving user activity {} with ttl of {} seconds", activity, effectiveTtl.toSeconds());
+        cassandraTemplate.insert(activity, InsertOptions.builder().ttl(defaultActivityTtl).build());
+        log.debug("Saving user activity {}", activity);
 
         return userActivityMapper.toResponse(activity);
     }

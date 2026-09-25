@@ -4,7 +4,6 @@ import com.margo.useractivitylogsystem.model.ActivityRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
@@ -66,20 +65,6 @@ class ActivitySimulationServiceTest {
         assertThat(userIdCaptor.getValue()).isEqualTo(mockValues("MOCK_USER_IDS").get(index));
         assertThat(request.activityType()).isEqualTo(mockValues("MOCK_ACTIVITY_TYPES").get(index));
         assertThat(request.details()).isEqualTo(mockValues("MOCK_DETAILS").get(index));
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = {"true, 3600", "false, NULL"}, nullValues = "NULL")
-    void simulateActivityLog_setsCustomTtlOnlyWhenRandomBooleanIsTrue(boolean useCustomTtl, Integer expectedTtl) {
-        // given
-        when(random.nextBoolean()).thenReturn(useCustomTtl);
-
-        // when
-        service.simulateActivityLog();
-
-        // then
-        verify(userActivityService).saveActivity(any(UUID.class), requestCaptor.capture());
-        assertThat(requestCaptor.getValue().ttlInSeconds()).isEqualTo(expectedTtl);
     }
 
     @ParameterizedTest

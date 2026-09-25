@@ -11,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
@@ -28,7 +26,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static com.margo.useractivitylogsystem.data.TestData.ACTIVITY_TYPE;
 import static com.margo.useractivitylogsystem.data.TestData.DETAILS;
@@ -75,24 +72,10 @@ class UserActivityServiceTest {
         ReflectionTestUtils.setField(service, "defaultActivityTtl", DEFAULT_TTL);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"NULL, 2592000", "60, 60", "3600, 3600"}, nullValues = "NULL")
-    void saveActivity_usesRequestedTtlOrFallsBackToDefault(Integer requestedTtl, long expectedSeconds) {
-        // given
-        ActivityRequest request = new ActivityRequest(ACTIVITY_TYPE, DETAILS, requestedTtl);
-
-        // when
-        service.saveActivity(USER_ID, request);
-
-        // then
-        verify(cassandraTemplate).insert(any(UserActivity.class), optionsCaptor.capture());
-        assertThat(optionsCaptor.getValue().getTtl()).isEqualTo(Duration.ofSeconds(expectedSeconds));
-    }
-
     @Test
-    void saveActivity_persistsTimeUuidKeyAndReturnsMappedResponse() {
+    void saveActivity_persistsTimeUuidKeyWithTTLAndReturnsMappedResponse() {
         // given
-        ActivityRequest request = new ActivityRequest(ACTIVITY_TYPE, DETAILS, null);
+        ActivityRequest request = new ActivityRequest(ACTIVITY_TYPE, DETAILS);
         ActivityResponse response = mock(ActivityResponse.class);
         when(userActivityMapper.toResponse(any(UserActivity.class))).thenReturn(response);
 
@@ -100,7 +83,10 @@ class UserActivityServiceTest {
         ActivityResponse result = service.saveActivity(USER_ID, request);
 
         // then
-        verify(cassandraTemplate).insert(activityCaptor.capture(), any(InsertOptions.class));
+        verify(cassandraTemplate).insert(activityCaptor.capture(), optionsCaptor.capture());
+
+        assertThat(optionsCaptor.getValue().getTtl()).isEqualTo(DEFAULT_TTL);
+
         UserActivity saved = activityCaptor.getValue();
         UserActivityKey key = saved.getKey();
 

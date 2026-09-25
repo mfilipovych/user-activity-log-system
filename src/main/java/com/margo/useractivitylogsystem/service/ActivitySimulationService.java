@@ -50,9 +50,7 @@ public class ActivitySimulationService {
         String activityType = getRandomElement(MOCK_ACTIVITY_TYPES);
         String details = getRandomElement(MOCK_DETAILS);
 
-        Integer customTtl = random.nextBoolean() ? 3600 : null;
-
-        ActivityRequest request = new ActivityRequest(activityType, details, customTtl);
+        ActivityRequest request = new ActivityRequest(activityType, details);
 
         try {
             userActivityService.saveActivity(userId, request);

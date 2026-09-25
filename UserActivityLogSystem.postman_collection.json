@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "2679f6b1-0a70-44c2-8e80-4ae0bb24bcb1",
+    "_postman_id": "530ea528-e898-4b32-9aa6-0fcf1a65dd4e",
     "name": "UserActivityLogSystem",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "51868674"
@@ -89,7 +89,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -138,7 +138,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -181,7 +181,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -224,7 +224,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -268,7 +268,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -315,7 +315,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -362,7 +362,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -393,7 +393,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "// // Empty body\n// {\n\n// }\n\n// // // Blank activity type\n// {\n//     \"activityType\": \"\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 10000\n// }\n\n// // Small ttl\n// {\n//     \"activityType\": \"Login\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 2\n// }\n\n// // Large TTL\n// {\n//     \"activityType\": \"Login\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 315360000\n// }\n\n// // To long activity type\n// {\n//     \"activityType\": \"LoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 31536000\n// }",
+              "raw": "// // Empty body\n// {\n\n// }\n\n// // // Blank activity type\n// {\n//     \"activityType\": \"\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 10000\n// }\n\n// // To long activity type\n// {\n//     \"activityType\": \"LoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 31536000\n// }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -433,7 +433,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -470,7 +470,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -516,7 +516,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -537,98 +537,6 @@
               ],
               "cookie": [],
               "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"activityType: Activity type is required\"\n    ]\n}"
-            },
-            {
-              "name": "Save Small TTL",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 2\n}\n",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
-                  "path": [
-                    "user_activities",
-                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
-                  ]
-                }
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/problem+json"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Date",
-                  "value": "Fri, 25 Sep 2026 12:17:16 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"ttlInSeconds: TTL must be at least 60 seconds (1 minute)\"\n    ]\n}"
-            },
-            {
-              "name": "Save Large TTL",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 315360000\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
-                  "path": [
-                    "user_activities",
-                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
-                  ]
-                }
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/problem+json"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "Date",
-                  "value": "Fri, 25 Sep 2026 12:18:00 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"ttlInSeconds: TTL cannot exceed 31,536,000 seconds (1 year)\"\n    ]\n}"
             },
             {
               "name": "Save Long Activity Type",
@@ -654,7 +562,7 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -685,7 +593,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
+              "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -708,7 +616,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
+                  "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\"\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -725,7 +633,7 @@
               },
               "status": "Service Unavailable",
               "code": 503,
-              "_postman_previewlanguage": "",
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -796,7 +704,7 @@
               },
               "status": "Service Unavailable",
               "code": 503,
-              "_postman_previewlanguage": "",
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
@@ -874,7 +782,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Content-Type",
@@ -921,7 +829,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Content-Type",
@@ -976,7 +884,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Content-Type",
@@ -1027,7 +935,7 @@
           },
           "status": "OK",
           "code": 200,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Content-Type",
@@ -1056,82 +964,7 @@
       ]
     },
     {
-      "name": "Save with TTL",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
-          "path": [
-            "user_activities",
-            "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
-          ]
-        }
-      },
-      "response": [
-        {
-          "name": "Save with TTL",
-          "originalRequest": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
-              "path": [
-                "user_activities",
-                "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
-              ]
-            }
-          },
-          "status": "Created",
-          "code": 201,
-          "_postman_previewlanguage": null,
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            },
-            {
-              "key": "Transfer-Encoding",
-              "value": "chunked"
-            },
-            {
-              "key": "Date",
-              "value": "Fri, 25 Sep 2026 12:02:15 GMT"
-            },
-            {
-              "key": "Keep-Alive",
-              "value": "timeout=60"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"userId\": \"c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"activityTimestamp\": \"2026-09-25T12:02:15.306Z\",\n    \"activityId\": \"f2e9eea0-b8d8-11f1-9877-2769fb25bef4\",\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\"\n}"
-        }
-      ]
-    },
-    {
-      "name": "Save without TTL",
+      "name": "Save",
       "request": {
         "method": "POST",
         "header": [],
@@ -1177,7 +1010,7 @@
           },
           "status": "Created",
           "code": 201,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Content-Type",
@@ -1252,7 +1085,7 @@
           },
           "status": "Created",
           "code": 201,
-          "_postman_previewlanguage": null,
+          "_postman_previewlanguage": "Text",
           "header": [
             {
               "key": "Content-Type",
