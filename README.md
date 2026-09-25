@@ -24,7 +24,8 @@ time-to-live (TTL) expiration, clustered data replication across multiple racks,
 - **Keyspace Name:** `log_system`
 - **Replication Strategy:** `NetworkTopologyStrategy` (`dc1`: 3 nodes across `rack1`, `rack2`, and `rack3`)
 
-### Data Schema (`schema.cql`)
+### Data Schema _[schema.cql](src/main/resources/scripts/schema.cql)_
+
 The system creates a keyspace named `log_system` configured with `NetworkTopologyStrategy` across 3 node replicas in datacenter `dc1`.
 
 * **Keyspace**: `log_system` (Replication Factor: 3)
@@ -85,7 +86,7 @@ for time-critical writes and recent log queries, while offering **high performan
 
 
 ### 1. Write Operations: `LOCAL_QUORUM`
-* **Configuration:** Set via `spring.cassandra.request.consistency: local_quorum` in `application.yml` and overridden via the `CASSANDRA_CONSISTENCY` environment variable in `docker-compose.yml`.
+* **Configuration:** Set via `spring.cassandra.request.consistency: local_quorum` in `application.yml` and overridden via the `CASSANDRA_CONSISTENCY` environment variable in [_docker-compose.yaml_](./docker-compose.yaml).
 * **Behavior:** Every write operation (`saveActivity` via Spring Data Cassandra / `CassandraTemplate` insert) must be acknowledged by a quorum of replica nodes in datacenter `dc1`.
 * **Quorum Calculation:**
   $$\text{Quorum} = \lfloor \text{Replication Factor} / 2 \rfloor + 1 = \lfloor 3 / 2 \rfloor + 1 = 2 \text{ nodes}$$
@@ -263,7 +264,7 @@ you need to adjust your keyspace replication strategy, local datacenter settings
 In a single-node local setup, you do not have 3 nodes in `dc1`. 
 Using `NetworkTopologyStrategy` with `'dc1': 3` on a single native instance will cause query failures (`UnavailableException`) when requesting `LOCAL_QUORUM` consistency.
 
-#### Step 1: Update `schema.cql`
+#### Step 1: Update _[schema.cql](src/main/resources/scripts/schema.cql)_
 Change the replication strategy to `SimpleStrategy` with a replication factor of `1` for single-node local development:
 
 ```cassandraql
@@ -298,7 +299,7 @@ cqlsh -f src/main/resources/scripts/schema.cql
 
 ---
 
-### 2. Update Application Configuration (`application.yml`)
+### 2. Update Application Configuration (_[application.yaml](src/main/resources/application.yaml)_)
 
 Update your local application properties or environment variables to point to your local Cassandra datacenter name (default for native installations is typically `datacenter1`) and consistency level:
 
@@ -479,6 +480,7 @@ curl -X GET "http://localhost:8080/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7
 
 The application contains a built-in simulation service (`ActivitySimulationService`) enabled via Spring `@Scheduled`.
 Every **5 seconds**, it automatically injects synthetic user activity records into the database. 
+These **5 seconds** setting is configurable via envs (see [application.yaml](src/main/resources/application.yaml) for details).
 You can inspect these simulated records in real-time through the `GET /user_activities/{userId}` endpoint or directly via `cqlsh`.
 
 ## `cassandra.yaml` editing
@@ -487,7 +489,7 @@ You can inspect these simulated records in real-time through the `GET /user_acti
 
 The official `cassandra:4.1` Docker image is minimal and does **not** include text editors like `nano` or `vim` by default. Below are two methods to edit your configuration using `nano`.
 
-This approach is best for quick experimentation on a running container without modifying your `docker-compose.yml` setup.
+This approach is best for quick experimentation on a running container without modifying your [_docker-compose.yaml_](docker-compose.yaml) setup.
 
 #### 1. Open a Root Shell in the Container
 Run `docker compose exec` with the `-u root` flag to ensure you have permissions to install software:
@@ -552,7 +554,7 @@ nano ./cassandra.yaml
 
 ```
 
-#### 3. Mount the Local File in `docker-compose.yml`
+#### 3. Mount the Local File in _[docker-compose.yaml](./docker-compose.yaml)_
 
 Add the file mount under the `volumes` section of your Cassandra service:
 
