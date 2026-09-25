@@ -34,6 +34,7 @@ import java.util.stream.Stream;
 import static com.margo.useractivitylogsystem.data.TestData.ACTIVITY_TYPE;
 import static com.margo.useractivitylogsystem.data.TestData.DETAILS;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Testcontainers
 @SpringBootTest(properties = {
@@ -94,19 +95,18 @@ class UserActivityIntegrationTest {
     @Test
     void findByTimestampRange_returnsRecordsInCorrectRange() {
         // given
-        UUID testUser = UUID.randomUUID();
         Instant now = Instant.now();
 
-        UserActivity past = activityAt(testUser, now.minusSeconds(3600), "PAST");
-        UserActivity inside = activityAt(testUser, now, "INSIDE");
-        UserActivity future = activityAt(testUser, now.plusSeconds(3600), "FUTURE");
+        UserActivity past = activityAt(userId, now.minusSeconds(3600), "PAST");
+        UserActivity inside = activityAt(userId, now, "INSIDE");
+        UserActivity future = activityAt(userId, now.plusSeconds(3600), "FUTURE");
 
         repository.saveAll(List.of(past, inside, future));
 
         // when
         List<UserActivity> result = repository
                 .findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan(
-                        testUser, now.minusSeconds(60), now.plusSeconds(60));
+                        userId, now.minusSeconds(60), now.plusSeconds(60));
 
         // then
         assertThat(result)
@@ -143,6 +143,29 @@ class UserActivityIntegrationTest {
                 Arguments.of(null, at(0), at(5), List.of(4, 3, 2, 1, 0)),// range covering everything
                 Arguments.of(1, at(0), at(5), List.of(4)),// range with limit
                 Arguments.of(null, at(10), at(11), List.of()));          // range with no data
+    }
+
+    @ParameterizedTest
+    @MethodSource("com.margo.useractivitylogsystem.data.TestData#invalidRanges")
+    void getUserActivities_withInvalidTimeRange_throwsIllegalArgumentException(
+            Instant from, Instant to, String expectedMessage) {
+        // when & then
+        assertThatThrownBy(() ->
+                        service.getUserActivities(userId, null, from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(expectedMessage);
+    }
+
+    @Test
+    void getUserActivities_whenUserHasNoActivities_returnsEmptyList() {
+        // given
+        UUID nonExistentUser = UUID.randomUUID();
+
+        // when
+        List<ActivityResponse> result = service.getUserActivities(nonExistentUser, null, null, null);
+
+        // then
+        assertThat(result).isEmpty();
     }
 
     private static Instant at(int hours) {

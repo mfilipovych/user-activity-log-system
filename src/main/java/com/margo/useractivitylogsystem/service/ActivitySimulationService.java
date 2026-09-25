@@ -42,7 +42,9 @@ public class ActivitySimulationService {
             "Downloaded PDF report"
     );
 
-    @Scheduled(fixedRate = 5000, initialDelay = 2000)
+    @Scheduled(
+            fixedRateString = "${simulation.schedule.fixed-rate-ms:5000}",
+            initialDelayString = "${simulation.schedule.initial-delay-ms:2000}")
     public void simulateActivityLog() {
         UUID userId = getRandomElement(MOCK_USER_IDS);
         String activityType = getRandomElement(MOCK_ACTIVITY_TYPES);

@@ -18,6 +18,7 @@ public interface UserActivityRepository extends CassandraRepository<UserActivity
     @Consistency(value = DefaultConsistencyLevel.LOCAL_ONE)
     List<UserActivity> findByKey_UserId(UUID keyUserId);
 
+    @Consistency(value = DefaultConsistencyLevel.LOCAL_QUORUM)
     List<UserActivity> findByKey_UserId(UUID keyUserId, Limit limit);
 
     @Consistency(value = DefaultConsistencyLevel.LOCAL_ONE)

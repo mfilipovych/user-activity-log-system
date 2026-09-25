@@ -1,5 +1,6 @@
 package com.margo.useractivitylogsystem.controller.exception;
 
+import com.datastax.oss.driver.api.core.AllNodesFailedException;
 import com.datastax.oss.driver.api.core.NoNodeAvailableException;
 import com.datastax.oss.driver.api.core.metadata.Node;
 import com.datastax.oss.driver.api.core.DefaultConsistencyLevel;
@@ -12,6 +13,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.core.MethodParameter;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.cassandra.CassandraConnectionFailureException;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -99,6 +102,15 @@ class GlobalExceptionHandlerTest {
                         HttpStatus.SERVICE_UNAVAILABLE, "Connection Failure", unavailable, null),
 
                 Arguments.of(new NoNodeAvailableException(),
+                        HttpStatus.SERVICE_UNAVAILABLE, "Connection Failure", unavailable, null),
+
+                Arguments.of(AllNodesFailedException.fromErrors(List.of()),
+                        HttpStatus.SERVICE_UNAVAILABLE, "Connection Failure", unavailable, null),
+
+                Arguments.of(new CassandraConnectionFailureException(Map.of(), "connection failed", new RuntimeException("connection failed")),
+                        HttpStatus.SERVICE_UNAVAILABLE, "Connection Failure", unavailable, null),
+
+                Arguments.of(new DataAccessResourceFailureException("resource failure"),
                         HttpStatus.SERVICE_UNAVAILABLE, "Connection Failure", unavailable, null),
 
                 Arguments.of(new DriverTimeoutException("timed out"),

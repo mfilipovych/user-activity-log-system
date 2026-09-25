@@ -54,8 +54,8 @@ public class UserActivityService {
             throw new IllegalArgumentException("Parameters 'from' and 'to' must be specified together.");
         }
 
-        if (from.isAfter(to)) {
-            throw new IllegalArgumentException("Parameter 'from' cannot be after 'to'.");
+        if (!from.isBefore(to)) {
+            throw new IllegalArgumentException("Parameter 'from' must come strictly after 'to'.");
         }
 
         return limit == null

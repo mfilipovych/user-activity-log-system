@@ -142,57 +142,41 @@ class UserActivityServiceTest {
         assertThat(result).isSameAs(responses);
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "2026-09-01T00:00:00Z, 2026-09-24T00:00:00Z",
-            "2026-09-24T00:00:00Z, 2026-09-24T00:00:00Z"
-    })
-    void getUserActivities_withValidRange_queriesByTimeRange(Instant from, Instant to) {
+    @Test
+    void getUserActivities_withValidRange_queriesByTimeRange() {
         // given
-        when(repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan(USER_ID, from, to)).thenReturn(entities);
+        when(repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan(USER_ID, FROM, TO)).thenReturn(entities);
         when(userActivityMapper.toResponse(entities)).thenReturn(responses);
 
         // when
-        List<ActivityResponse> result = service.getUserActivities(USER_ID, null, from, to);
+        List<ActivityResponse> result = service.getUserActivities(USER_ID, null, FROM, TO);
 
         // then
         assertThat(result).isSameAs(responses);
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "2026-09-01T00:00:00Z, 2026-09-24T00:00:00Z, 70",
-            "2026-09-24T00:00:00Z, 2026-09-24T00:00:00Z, 1"
-    })
-    void getUserActivities_withValidRangeAndLimit_queriesByTimeRange(Instant from, Instant to, Integer limit) {
+    @Test
+    void getUserActivities_withValidRangeAndLimit_queriesByTimeRange() {
         // given
+        int limit = 10;
         when(repository.findByKey_UserIdAndKey_ActivityTimestampGreaterThanEqualAndKey_ActivityTimestampLessThan
-                (USER_ID, from, to, Limit.of(limit))).thenReturn(entities);
+                (USER_ID, FROM, TO, Limit.of(limit))).thenReturn(entities);
         when(userActivityMapper.toResponse(entities)).thenReturn(responses);
 
         // when
-        List<ActivityResponse> result = service.getUserActivities(USER_ID, limit, from, to);
+        List<ActivityResponse> result = service.getUserActivities(USER_ID, limit, FROM, TO);
 
         // then
         assertThat(result).isSameAs(responses);
     }
 
     @ParameterizedTest
-    @MethodSource("invalidRanges")
+    @MethodSource("com.margo.useractivitylogsystem.data.TestData#invalidRanges")
     void getUserActivities_withInvalidRange_throwsAndSkipsFetchingRecords(Instant from, Instant to, String message) {
         // when & then
         assertThatThrownBy(() -> service.getUserActivities(USER_ID, null, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(message);
         verifyNoInteractions(repository);
-    }
-
-    private static Stream<Arguments> invalidRanges() {
-        String missingBoundMessage = "Parameters 'from' and 'to' must be specified together.";
-        String reversedRangeMessage = "Parameter 'from' cannot be after 'to'.";
-        return Stream.of(
-                Arguments.of(FROM, null, missingBoundMessage),
-                Arguments.of(null, TO, missingBoundMessage),
-                Arguments.of(TO, FROM, reversedRangeMessage));
     }
 }

@@ -16,3 +16,8 @@ spring:
 
 activity:
   default-ttl: ${DEFAULT_ACTIVITY_TTL:30d}
+
+simulation:
+  schedule:
+    fixed-rate-ms: ${SIMULATION_SCHEDULE_FIXED_RATE_MS:5000}
+    initial-delay-ms: ${SIMULATION_SCHEDULE_INITIAL_DELAY_MS:2000}

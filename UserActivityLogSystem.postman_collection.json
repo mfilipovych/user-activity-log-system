@@ -1,0 +1,1310 @@
+{
+  "info": {
+    "_postman_id": "2679f6b1-0a70-44c2-8e80-4ae0bb24bcb1",
+    "name": "UserActivityLogSystem",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51868674"
+  },
+  "item": [
+    {
+      "name": "Negative Cases",
+      "item": [
+        {
+          "name": "Get Activities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+              "path": [
+                "user_activities",
+                "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Not an integer",
+                  "disabled": true
+                },
+                {
+                  "key": "from",
+                  "value": "2026-09-01T00:00:00Z",
+                  "disabled": true
+                },
+                {
+                  "key": "from",
+                  "value": "2026-09-28T00:00:00Z",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "101",
+                  "description": "Too large value",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "from",
+                  "value": "jhjhhjhjhhhjh",
+                  "description": "Not a date",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "0",
+                  "description": "Too small value",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "to",
+                  "value": "2026-09-01T00:00:00Z",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Activities Non-Integer Limit",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511?limit=aaa",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "aaa",
+                      "description": "Not an integer"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:07:59 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Invalid value for parameter 'limit'\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Invalid Value\"\n}"
+            },
+            {
+              "name": "Get Activities Invalid \"from\" value",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511?limit=10&from=jhjhhjhjhhhjh",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10",
+                      "description": "Not an integer"
+                    },
+                    {
+                      "key": "from",
+                      "value": "jhjhhjhjhhhjh",
+                      "description": "Not a date"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:08:46 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Invalid value for parameter 'from'\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Invalid Value\"\n}"
+            },
+            {
+              "name": "Get Activities \"to\" Without \"from\"",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511?to=2026-09-28T00:00:00Z",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ],
+                  "query": [
+                    {
+                      "key": "to",
+                      "value": "2026-09-28T00:00:00Z"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:09:44 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Parameters 'from' and 'to' must be specified together.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Invalid Argument\"\n}"
+            },
+            {
+              "name": "Get Activities Too Small Limit",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511?limit=0",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "0"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:11:38 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Validation failed for query or path parameters.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Invalid Request Parameters\",\n    \"errors\": [\n        \"getActivities.limit: must be greater than or equal to 1\"\n    ]\n}"
+            },
+            {
+              "name": "Get Activities Too Large Limit",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511?limit=101",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "101",
+                      "description": "Too large value"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:12:26 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Validation failed for query or path parameters.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Invalid Request Parameters\",\n    \"errors\": [\n        \"getActivities.limit: must be less than or equal to 100\"\n    ]\n}"
+            },
+            {
+              "name": "Get Activities Equal \"from\" and \"to\"",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511?from=2026-09-01T00:00:00Z&to=2026-09-01T00:00:00Z",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-09-01T00:00:00Z"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-09-01T00:00:00Z"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:12:53 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Parameter 'from' must come strictly after 'to'.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Invalid Argument\"\n}"
+            },
+            {
+              "name": "Get Activities \"from\" Comes After \"to\"",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511?from=2026-09-28T00:00:00Z&to=2026-09-01T00:00:00Z",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-09-28T00:00:00Z"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-09-01T00:00:00Z"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:13:59 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Parameter 'from' must come strictly after 'to'.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Invalid Argument\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Save",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "// // Empty body\n// {\n\n// }\n\n// // // Blank activity type\n// {\n//     \"activityType\": \"\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 10000\n// }\n\n// // Small ttl\n// {\n//     \"activityType\": \"Login\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 2\n// }\n\n// // Large TTL\n// {\n//     \"activityType\": \"Login\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 315360000\n// }\n\n// // To long activity type\n// {\n//     \"activityType\": \"LoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\",\n//     \"details\": \"User decided to login into their profile\",\n//     \"ttlInSeconds\": 31536000\n// }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+              "path": [
+                "user_activities",
+                "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Save Empty Body",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:15:11 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"activityType: Activity type is required\"\n    ]\n}"
+            },
+            {
+              "name": "Save No Body At All",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:15:46 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Invalid JSON format or malformed request body.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Malformed JSON Request\"\n}"
+            },
+            {
+              "name": "Save Blank Activity Type",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"activityType\": \"\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:16:34 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"activityType: Activity type is required\"\n    ]\n}"
+            },
+            {
+              "name": "Save Small TTL",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 2\n}\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:17:16 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"ttlInSeconds: TTL must be at least 60 seconds (1 minute)\"\n    ]\n}"
+            },
+            {
+              "name": "Save Large TTL",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 315360000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:18:00 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"ttlInSeconds: TTL cannot exceed 31,536,000 seconds (1 year)\"\n    ]\n}"
+            },
+            {
+              "name": "Save Long Activity Type",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"activityType\": \"LoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnLoginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 31536000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:18:42 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Input validation failed for request payload.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 400,\n    \"title\": \"Validation Failed\",\n    \"errors\": [\n        \"activityType: Activity type cannot exceed 50 characters\"\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Save With 2 Replicas Down",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+              "path": [
+                "user_activities",
+                "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Save With 2 Replicas Down",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+                  "path": [
+                    "user_activities",
+                    "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:41:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [
+                {
+                  "expires": "Invalid Date",
+                  "domain": "",
+                  "path": ""
+                }
+              ],
+              "body": "{\n    \"detail\": \"Activity log service is temporarily unavailable. Please try again later.\",\n    \"instance\": \"/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"status\": 503,\n    \"title\": \"Connection Failure\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Recent Activities With 2 Replicas Down",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34?limit=3",
+              "path": [
+                "user_activities",
+                "3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get Recent Activities With 2 Replicas Down",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34?limit=3",
+                  "path": [
+                    "user_activities",
+                    "3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "3"
+                    }
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 25 Sep 2026 12:41:05 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "close"
+                }
+              ],
+              "cookie": [
+                {
+                  "expires": "Invalid Date",
+                  "domain": "",
+                  "path": ""
+                }
+              ],
+              "body": "{\n    \"detail\": \"Activity log service is temporarily unavailable. Please try again later.\",\n    \"instance\": \"/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n    \"status\": 503,\n    \"title\": \"Connection Failure\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Get Activities",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34",
+          "path": [
+            "user_activities",
+            "3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "1",
+              "disabled": true
+            },
+            {
+              "key": "from",
+              "value": "2026-09-25T11:53:10.275Z",
+              "disabled": true
+            },
+            {
+              "key": "to",
+              "value": "2026-09-25T11:54:10.275Z",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get All Activities",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34",
+              "path": [
+                "user_activities",
+                "3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2148"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Sep 2026 11:53:26 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:53:10.275Z\",\n        \"activityId\": \"ae0ccd30-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Downloaded PDF report\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:52:50.273Z\",\n        \"activityId\": \"a220bd10-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Navigated to the /dashboard page\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:51:50.271Z\",\n        \"activityId\": \"7e5d28f0-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Updated user email preferences\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:51:40.275Z\",\n        \"activityId\": \"7867e430-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"PURCHASE_COMPLETE\",\n        \"details\": \"Downloaded PDF report\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:51:25.272Z\",\n        \"activityId\": \"6f769d80-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"EXPORT_REPORT\",\n        \"details\": \"Completed purchase\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:50:55.272Z\",\n        \"activityId\": \"5d94fa80-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"PAGE_VIEW\",\n        \"details\": \"Updated user email preferences\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:50:00.273Z\",\n        \"activityId\": \"3ccccc10-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Successful login\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:49:45.282Z\",\n        \"activityId\": \"33dd5a20-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"UPDATE_PROFILE\",\n        \"details\": \"Updated user email preferences\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:49:30.273Z\",\n        \"activityId\": \"2aeb2910-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Successful login\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:49:15.272Z\",\n        \"activityId\": \"21fa3080-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"PAGE_VIEW\",\n        \"details\": \"Downloaded PDF report\"\n    }\n]"
+        },
+        {
+          "name": "Get Activities With Limit",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34?limit=3",
+              "path": [
+                "user_activities",
+                "3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "645"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Sep 2026 11:53:53 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:53:45.277Z\",\n        \"activityId\": \"c2e9aed0-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Downloaded PDF report\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:53:10.275Z\",\n        \"activityId\": \"ae0ccd30-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Downloaded PDF report\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:52:50.273Z\",\n        \"activityId\": \"a220bd10-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Navigated to the /dashboard page\"\n    }\n]"
+        },
+        {
+          "name": "Get Activities WIth Time Range And Limit",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34?limit=1&from=2026-09-25T11:53:10.275Z&to=2026-09-25T11:54:10.275Z",
+              "path": [
+                "user_activities",
+                "3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "1"
+                },
+                {
+                  "key": "from",
+                  "value": "2026-09-25T11:53:10.275Z"
+                },
+                {
+                  "key": "to",
+                  "value": "2026-09-25T11:54:10.275Z"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "212"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Sep 2026 12:01:29 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:54:05.274Z\",\n        \"activityId\": \"ced4fba0-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Downloaded PDF report\"\n    }\n]"
+        },
+        {
+          "name": "Get Activities With Time Range",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/user_activities/3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34?from=2026-09-25T11:53:10.275Z&to=2026-09-25T11:54:10.275Z",
+              "path": [
+                "user_activities",
+                "3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34"
+              ],
+              "query": [
+                {
+                  "key": "from",
+                  "value": "2026-09-25T11:53:10.275Z"
+                },
+                {
+                  "key": "to",
+                  "value": "2026-09-25T11:54:10.275Z"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "634"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Sep 2026 12:01:56 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:54:05.274Z\",\n        \"activityId\": \"ced4fba0-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Downloaded PDF report\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:53:45.277Z\",\n        \"activityId\": \"c2e9aed0-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Downloaded PDF report\"\n    },\n    {\n        \"userId\": \"3f2b8c1e-6a4d-4e7b-9c15-2d8a7f0b1e34\",\n        \"activityTimestamp\": \"2026-09-25T11:53:10.275Z\",\n        \"activityId\": \"ae0ccd30-b8d7-11f1-9877-2769fb25bef4\",\n        \"activityType\": \"USER_LOGIN\",\n        \"details\": \"Downloaded PDF report\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Save with TTL",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+          "path": [
+            "user_activities",
+            "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Save with TTL",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\",\n    \"ttlInSeconds\": 10000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+              "path": [
+                "user_activities",
+                "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Sep 2026 12:02:15 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"userId\": \"c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"activityTimestamp\": \"2026-09-25T12:02:15.306Z\",\n    \"activityId\": \"f2e9eea0-b8d8-11f1-9877-2769fb25bef4\",\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Save without TTL",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+          "path": [
+            "user_activities",
+            "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Save without TTL",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+              "path": [
+                "user_activities",
+                "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Sep 2026 12:02:28 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"userId\": \"c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"activityTimestamp\": \"2026-09-25T12:02:28.443Z\",\n    \"activityId\": \"fabe7ab0-b8d8-11f1-9877-2769fb25bef4\",\n    \"activityType\": \"Login\",\n    \"details\": \"User decided to login into their profile\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Save without Details",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"activityType\": \"Login\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+          "path": [
+            "user_activities",
+            "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Save without Details",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"activityType\": \"Login\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "/user_activities/c47e90b3-15fa-4d28-b5e6-98a0d2c4f511",
+              "path": [
+                "user_activities",
+                "c47e90b3-15fa-4d28-b5e6-98a0d2c4f511"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Sep 2026 12:06:04 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"userId\": \"c47e90b3-15fa-4d28-b5e6-98a0d2c4f511\",\n    \"activityTimestamp\": \"2026-09-25T12:06:04.717Z\",\n    \"activityId\": \"7ba745d0-b8d9-11f1-ab96-ad51c57035d7\",\n    \"activityType\": \"Login\"\n}"
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.request.url.protocol = \"http\";",
+          "pm.request.url.host = \"localhost\";",
+          "pm.request.url.port = \"8080\";"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

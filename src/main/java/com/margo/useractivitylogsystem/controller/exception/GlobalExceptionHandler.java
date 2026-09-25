@@ -2,9 +2,12 @@ package com.margo.useractivitylogsystem.controller.exception;
 
 import com.datastax.oss.driver.api.core.AllNodesFailedException;
 import com.datastax.oss.driver.api.core.DriverTimeoutException;
+import com.datastax.oss.driver.api.core.NoNodeAvailableException;
 import com.datastax.oss.driver.api.core.servererrors.UnavailableException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.cassandra.CassandraConnectionFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -91,7 +94,13 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler({UnavailableException.class, AllNodesFailedException.class})
+    @ExceptionHandler({
+            UnavailableException.class,
+            AllNodesFailedException.class,
+            NoNodeAvailableException.class,
+            CassandraConnectionFailureException.class,
+            DataAccessException.class
+    })
     public ProblemDetail handleClusterUnavailable(Exception e) {
         logException(e);
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(

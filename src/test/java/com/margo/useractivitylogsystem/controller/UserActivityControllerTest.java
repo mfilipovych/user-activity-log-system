@@ -1,5 +1,6 @@
 package com.margo.useractivitylogsystem.controller;
 
+import org.springframework.test.web.servlet.ResultActions;
 import tools.jackson.databind.ObjectMapper;
 import com.margo.useractivitylogsystem.model.ActivityRequest;
 import com.margo.useractivitylogsystem.model.ActivityResponse;
@@ -69,13 +70,19 @@ class UserActivityControllerTest {
         when(userActivityService.saveActivity(USER_ID, request)).thenReturn(response);
 
         // when & then
-        mockMvc.perform(post(URL, USER_ID).contentType(APPLICATION_JSON).content(json(request)))
+        ResultActions result = mockMvc.perform(post(URL, USER_ID).contentType(APPLICATION_JSON).content(json(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.userId").value(USER_ID.toString()))
-                .andExpect(jsonPath("$.details").value(response.details()))
                 .andExpect(jsonPath("$.activityId").value(response.activityId().toString()))
                 .andExpect(jsonPath("$.activityType").value(response.activityType()))
                 .andExpect(jsonPath("$.activityTimestamp").value(response.activityTimestamp().toString()));
+
+        if (response.details() == null || response.details().isBlank()) {
+            result.andExpect(jsonPath("$.details").doesNotExist());
+        } else {
+            result.andExpect(jsonPath("$.details").value(response.details()));
+        }
+
         verify(userActivityService).saveActivity(USER_ID, request);
     }
 
